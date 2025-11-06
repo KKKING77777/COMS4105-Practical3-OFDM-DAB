@@ -1,0 +1,37 @@
+# MATLAB files
+*.asv
+*.m~
+*.mat
+*.fig
+*.p
+*.slx.autosave
+*.slxc
+*.mexw32
+*.mexw64
+*.mexa64
+*.mexmaci64
+slprj/
+*.slxc
+
+# Large data files
+*.wav
+dab.2021-12-16T14_26_44_664.wav
+
+# Generated images
+*.png
+*.jpg
+*.jpeg
+
+# Temporary files
+*~
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+*.swp
+*.swo
+
+# Results and data
+results/
+output/
