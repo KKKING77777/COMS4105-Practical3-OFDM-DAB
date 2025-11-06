@@ -1,42 +1,52 @@
-# COMS4105 Practical 3 - Preparation Questions
+# COMS4105 Practical 3 - Preparation Questions 
 
-## Question 1: OFDM System Parameters
+## Question 1: OFDM system 
 
-Given:
-- 52 sub-carriers
-- Bandwidth: 2 MHz  
-- Total symbol duration: 36 µs
-- Guard time: 1/8 of useful symbol time
-- QPSK modulation per sub-carrier
+**Provided parameters:**
+- Number of sub-carriers = 52 
+- Bandwidth = 2 MHz 
+- Total symbol duration = 36 µs 
+- Guard time = 1/8 of the useful symbol time
+- QPSK modulation per sub-carrier 
 
-In the given OFDM system configuration, we first need to understand the relationship between total symbol duration and useful symbol time. The total symbol duration of 36µs includes both guard time and FFT integration period, where the guard time equals 1/8 of the useful symbol time. Through calculation, the FFT integration period Tu is 32µs with corresponding guard time of 4µs.
+**To calculate other parameters:**
+- a. Subcarrier spacing = Useful symbol time⁻¹ 
+- b. Maximum delay spread that can be tolerated = guard time
 
-The subcarrier spacing is directly determined by the useful symbol time. Using the formula Δf = 1/Tu, the subcarrier spacing is calculated as 31.25kHz. In multipath propagation environments, the cyclic prefix (guard time) determines the maximum delay spread the system can tolerate, therefore the maximum delay spread is 4µs.
+**Solution:** 
 
-The system uses 52 subcarriers in total, occupying an actual bandwidth of 1.625MHz, which is less than the allocated 2MHz bandwidth, leaving space for guard bands. Considering 4 subcarriers are used as pilots, there are 48 actual data subcarriers. Each subcarrier employs QPSK modulation providing 2 bits, combined with a symbol rate of 27777.78 symbols/second, the maximum data rate can be calculated as 2.67Mbps.
+First, we need to know the relationship between the total symbol time and the useful symbol time. Since 36µs includes both guard time and FFT integration period, we assume the guard time is equal to 1/8 of the useful symbol time. We calculate the FFT integration period Tu is 32µs, the corresponding guard time is 4µs.
 
-## Question 2: DAB OFDM Parameters (ETSI EN 300 401 §14.2)
+The subcarrier spacing can be determined by the useful symbol time. Δf = 1/Tu , we have the subcarrier spacing = 31.25kHz. In a multipath propagation environment, the cyclic prefix (guard time) determines the maximum delay spread that can be tolerated, thus the maximum delay spread = 4µs.
 
-According to ETSI EN 300 401 standard section 14.2, the DAB system in Mode I employs specific OFDM parameter configurations. The system defines 1536 total subcarrier positions, but 384 are null carriers, resulting in 1152 active subcarriers. The FFT size is set to 2048 with a guard interval of 504 samples.
+The total number of subcarriers in the system is 52, of which the actual number of used data subcarriers and pilot subcarriers is less than 52, since the guard bands may be used to protect against the out-of-band emissions, the used subcarriers are distributed in an actual bandwidth of less than 2MHz, it is 1.625MHz. Considering 4 subcarriers are pilots, the actual number of data subcarriers = 52 - 4 = 48. Each subcarrier is modulated with QPSK, providing 2 bits per subcarrier. The maximum data rate = 2 x 48 x 27777.78symbols/second = 2.67Mbps
 
-Regarding timing parameters, DAB uses a special time unit T = 1/2048000 seconds, corresponding to a 2.048MHz sampling rate requirement. The useful symbol duration Tu is 1024 time units equaling 500µs, guard interval duration Tg is 246 time units equaling 120µs, and total symbol duration Ts is 1270 time units equaling 620µs. The subcarrier spacing is 977Hz, calculated as 1kHz divided by 1024 according to the standard.
+## Question 2: DAB OFDM parameters (ETSI EN 300 401 §14.2)
 
-## Question 3: DAB Synchronization Methods
+ETSI EN 300 401 standard section 14.2, the DAB system in mode I uses the following OFDM parameters:
 
-DAB system time synchronization primarily relies on null symbol detection, which creates distinctive patterns in the transmission frame structure. The transmission frame contains Phase Reference Symbol PRS, Fast Information Channel FIC symbols, and Main Service Channel MSC symbols. Receivers can detect null symbol periods through energy detection methods that look for power drops, or use correlation methods with known null symbol patterns. The Phase Reference Symbol has a known structure where all subcarriers are modulated with a pseudo-random binary sequence, providing a differential demodulation reference and maintaining phase coherence for subsequent symbols.
+- The total number of subcarrier positions is 1536, 384 are null carriers, the number of active subcarriers is 1152
+- FFT size K= 2048, guard interval length is 504 samples
+- Time unit T = 1/2048000 seconds. This requires the sampling rate to be 2.048MHz. The useful symbol duration Tu is 1024 time units = 500µs. The guard interval duration Tg is 246 time units = 120µs. The total symbol duration Ts is 1270 time units = 620µs. The subcarrier spacing is 977Hz = 1kHz/1024 as per standard.
 
-Frequency synchronization consists of coarse and fine synchronization stages. Coarse frequency synchronization first captures full bandwidth signals around the expected frequency, performs FFT on the received signal, then looks for energy concentration in expected subcarrier positions. By adjusting frequency until maximum energy aligns with active subcarriers, using the characteristic that the center carrier should be zero for frequency correction. Fine frequency synchronization utilizes the periodic nature of the cyclic prefix, correlating the guard interval with the end of the useful symbol period, where correlation peaks indicate precise frequency offset.
+## Question 3: DAB synchronization methods 
 
-## Question 4: OFDM Lecture Reference
+The DAB system time synchronization process mainly relies on null symbol detection. In the transmission frame structure, the insertion of the null symbol generates a unique pattern in the frame structure, which is conducive to the subsequent detection. The transmission frame contains the Phase Reference Symbol PRS, Fast Information Channel FIC symbols, and Main Service Channel MSC symbols. The receiver can detect the period of the null symbol through energy detection or correlation method to look for known null symbol patterns. The structure of the Phase Reference Symbol is known, all subcarriers are modulated with a pseudo-random binary sequence. It is used as a differential demodulation reference and to maintain phase coherence for the subsequent symbols.
 
-OFDM-related content was covered in detail in lectures 16 and 17 of the course, including multi-carrier modulation principles, orthogonality conditions, cyclic prefix and inter-symbol interference, and frequency domain processing. These theoretical foundations are important for understanding OFDM modulation/demodulation, frequency synchronization, and multipath channel analysis in this experiment.
+Frequency synchronization in the DAB system is mainly divided into coarse synchronization and fine synchronization.
 
-Regarding Git repository establishment, it requires creating a README.md file containing experimental descriptions, configuring .gitignore rules suitable for MATLAB files, and establishing organized directory structures for different exercises. Such version control setup helps with code management and tracking experimental results.
+Coarse frequency synchronization mainly includes three steps: First, it samples and receives signals in the full bandwidth of the DAB system at around the target frequency. Second, it performs FFT on the received signal and analyzes the FFT result. Finally, through coarse adjustments of frequency, it searches for the maximum energy concentration position on the expected subcarrier positions. According to the feature that the center carrier should be zero, it determines that the frequency correction range is converged. Fine frequency synchronization is performed by utilizing the periodic nature of the cyclic prefix, that is, the correlation between the guard interval and the tail of the useful symbol period. In the frequency domain, the correlation function reaches a peak at the exact frequency offset.
 
-## Question 5: DAB Processing Stages
+## Question 4: OFDM related lecture 
 
-DAB system frequency interleaving uses pseudo-random permutation tables to spread adjacent bits across different subcarriers, providing frequency diversity against selective fading. The interleaving table establishes mapping relationships between logical subcarrier indices and physical subcarrier positions, and this randomization process effectively improves transmission quality.
+The theory related to OFDM is in lecture 16 and 17, include multi-carrier modulation principle and orthogonality condition, cyclic prefix and inter-symbol interference, frequency domain processing and so on.
 
-The energy dispersal mechanism uses pseudo-random binary sequence PRBS for XOR operations with generator polynomial G(x) = x⁹ + x⁵ + 1. This process aims to randomize data ensuring flat power spectral density, typically applied before channel coding. Energy dispersal helps avoid adverse effects from periodic patterns that may exist in data on transmission performance.
+Git repository is used to version control the experimental programs and results, the main content to initialize a new repository is to create a README.md file containing the description of experiments, configure .gitignore rules suitable for MATLAB files, create an organized directory structure for different exercises, etc.
 
-Convolutional coding employs rate 1/4 coding with constraint length 7, providing error correction capability through generator polynomials and creating redundancy for error detection and correction. Puncturing techniques selectively remove coded bits to increase code rate, with puncturing vectors in section 11 specifying transmitted or discarded bit positions. This flexible coding scheme allows implementation of various code rates like 1/2, 2/3, 3/4, etc. The receiver processing involves first de-puncturing by inserting neutral values, then performing Viterbi decoding to complete the entire error correction decoding process.
+## Question 5: DAB processing stages 
+
+Frequency interleaving in the DAB system uses pseudo-random permutation tables to disperse the adjacent bits to different subcarriers, providing frequency diversity to combat selective fading. Interleaving table defines the mapping relationship between the logical subcarrier indices and the physical subcarrier positions. This randomization process effectively improves the transmission quality.
+
+The energy dispersal mechanism uses a pseudo-random binary sequence PRBS for XOR operation with generator polynomial G(x) = x⁹ + x⁵ + 1. The energy dispersal operation is to randomize the data with the purpose of ensuring that the power spectral density is flat, it is typically applied before channel coding.
+
+Convolutional coding uses rate 1/4 coding and constraint length 7 to provide error correction capability. The generator polynomials define the coding relationship and create redundancy to detect and correct errors. Puncturing is used to selectively remove certain coded bits to increase the code rate. Puncturing vectors in section 11 indicate the positions of transmitted bits or discarded bits, this flexible coding scheme allows for implementation of various punctured code rates such as 1/2, 2/3, 3/4, etc. The receiver processing includes first de-puncturing to insert neutral value, then Viterbi decoding for the whole error correction decoding.

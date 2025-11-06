@@ -1,24 +1,27 @@
 # COMS4105 Practical 3 - OFDM and DAB
 
-Complete implementation for COMS4105 Practical 3 covering OFDM modulation and DAB signal processing.
+Fully working implementation for COMS4105 Practical 3. Includes OFDM modulation and DAB signal processing.
 
 ## Files
 
-**Core exercises:**
+**Exercise files:**
 - `exercise_4_1_1.m` - OFDM modulator/demodulator (52 carriers, QPSK)
-- `exercise_4_1_2.m` - Frequency estimation and recovery 
+- `exercise_4_1_2.m` - Frequency estimation and recovery
 - `exercise_4_1_3.m` - Multipath channel effects
 - `exercise_4_2_ota.m` - Over-the-air signal processing
 - `dab_decoder_framework.m` - DAB FIC decoder
 - `generate_prbs.m` - Energy dispersal sequence generator
 
-**Documentation:**
-- `preparation_answers.md` - Theory questions and calculations
-- `802154g/` - Zigbee test data for exercise 4.2
+**Preparation questions:**
+- `preparation_answers.md` - Theory questions, calculations
+
+**Additional data:**
+- `802154g/` - Zigbee test data files for exercise 4.2
 
 ## Running the code
 
-Execute in order:
+Run the following commands in order (ensure all data files are present in the current directory):
+
 ```matlab
 run('exercise_4_1_1.m')  % OFDM basics
 run('exercise_4_1_2.m')  % Frequency sync
@@ -29,12 +32,12 @@ run('dab_decoder_framework.m') % DAB
 
 ## Results summary
 
-The OFDM implementation achieves 0% BER under perfect conditions. Frequency estimation works reliably within ±8 subcarriers. Multipath delays up to the guard time (4μs) are handled well, with EVM staying below 62%. The over-the-air processing successfully decodes data from 802.15.4g captures. DAB decoder extracts 76 symbols from real BBC broadcast data.
+The OFDM system reaches 0% BER with no imperfections. Frequency estimation is very robust to errors, working well within ±8 subcarriers. Multipath delays up to the guard time (4μs) can be handled, with EVM staying below 62%. The over-the-air processing was successfully used to decode data from 802.15.4g captures. The DAB decoder can successfully extract the 76 symbols from real BBC broadcast data.
 
 ## Data requirements
 
-You need the DAB WAV file for exercise 4.3 but it's too big for GitHub (313MB). Everything else should work with the included data files.
+The DAB WAV file required for exercise 4.3 was too large to host on GitHub (313MB), so it was excluded. All other data should be present and the exercises should run successfully.
 
 ## Technical details
 
-OFDM uses 52 active subcarriers with 31.25kHz spacing and 32μs useful symbol time. DAB follows Mode I specification with 2.048MHz sampling rate. Both systems use differential encoding - QPSK for OFDM and π/4 DPSK for DAB. The multipath channel model includes realistic delay spreads and the frequency estimation uses power-based detection.
+The OFDM system has 52 active subcarriers, with a spacing of 31.25kHz and a useful symbol time of 32μs. DAB sampling rate and other parameters are set to Mode I specification, with a sampling rate of 2.048MHz. Both systems use differential encoding, QPSK for OFDM and π/4 DPSK for DAB. The multipath channel model includes realistic multipath delay spreads. The frequency estimation uses the power-based method for detection.
