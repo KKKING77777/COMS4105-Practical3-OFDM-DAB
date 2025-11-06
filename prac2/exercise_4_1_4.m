@@ -79,7 +79,7 @@ function [decoded, errors_corrected] = rs_decode_simple(received, n, k)
         
         % find error positions and values (simplified)
         error_positions = find(syndrome ~= 0);
-        if length(error_positions) <= t
+        if length(error_positions) <= 8
             for pos = error_positions
                 if pos <= length(corrected_symbols)
                     corrected_symbols(pos) = mod(corrected_symbols(pos) + syndrome(pos), 256);
